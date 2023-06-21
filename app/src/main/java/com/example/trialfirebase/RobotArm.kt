@@ -19,19 +19,20 @@ private const val CAMERA_REQUEST_CODE = 101
 class RobotArm : AppCompatActivity() {
 
     private lateinit var codeScanner: CodeScanner
-    private lateinit var db: FirebaseFirestore
+    private lateinit var db: FirebaseFirestore 
     private val containers: MutableList<container> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.robot_arm)
 
-        db = FirebaseFirestore.getInstance()
+        db = FirebaseFirestore.getInstance() //initialize the firebase firestore
         setupPermissions()
         codeScanner()
     }
 
 
+    //function for the qr code scanner
     private fun codeScanner() {
         val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
         codeScanner = CodeScanner(this, scannerView)
@@ -114,6 +115,8 @@ class RobotArm : AppCompatActivity() {
             }
         }
     }
+
+    //function to take data from firestore
     private fun fetchContainerData(result: String) {
 
         val containerRef = db.collection("results").document(result)
@@ -135,6 +138,7 @@ class RobotArm : AppCompatActivity() {
             }
     }
 
+    //function to send data to realtime database
     private fun sendLocationToRealtimeDatabase(location: Long) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("/location")
         databaseRef.child("location").setValue(location)
