@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
         adapter = containerAdapter(this, containers, this)
         recyclerView.adapter = adapter
 
+        //get the container data from the QR Scan
         val intent = intent
         if (intent.hasExtra("CONTAINERS_EXTRA")) {
             val receivedContainers = intent.getParcelableArrayListExtra<container>("CONTAINERS_EXTRA")
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
         }
         val sendButton: Button = findViewById(R.id.btnSend)
         sendButton.setOnClickListener {
-            val data = containers // Replace with your actual data
+            val data = containers 
 
             // Create a new document in the "data" collection with the provided data
             db.collection("sample")
@@ -86,6 +87,8 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
         }
 
     }
+    
+    // Fetch data from Firestore and navigate to the predicted activity
     private fun fetchDataAndNavigate() {
         val db = FirebaseFirestore.getInstance()
         val containersRef = db.collection("results")
@@ -104,7 +107,7 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
                 }
             }
     }
-
+    // Navigate to the predicted activity and pass container data as an intent extra
     private fun navigateToDisplayActivity(containerDataList: List<Map<String, Any>>) {
         val intent = Intent(this, predicted::class.java)
         intent.putExtra("containerDataList", containerDataList.toTypedArray())
@@ -115,6 +118,8 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
         containers.removeAll(selectedContainers)
         adapter.notifyDataSetChanged()
     }
+
+    // Handle the result from QRScanActivity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Companion.SCAN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
