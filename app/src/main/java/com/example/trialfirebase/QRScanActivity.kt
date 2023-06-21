@@ -26,13 +26,14 @@ class QRScanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.qr_scan)
 
-        db = FirebaseFirestore.getInstance()
+        db = FirebaseFirestore.getInstance() //initialize the firebase firestore
 
         setupPermissions ()
         codeScanner()
     }
 
 
+    //function for the qr code scanner
     private fun codeScanner(){
         val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
         codeScanner = CodeScanner (this, scannerView)
@@ -66,6 +67,7 @@ class QRScanActivity : AppCompatActivity() {
         }
     }
 
+    //function to take data from firestore
     private fun fetchContainerData(containerId: String) {
 
         val containerRef = db.collection("containers").document(containerId)
