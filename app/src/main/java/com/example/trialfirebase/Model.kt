@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.os.Parcel
 import android.os.Parcelable
 
+// Data class representing a container
 data class container(
     var title: String = "",
     val id: Long = 0,
@@ -13,6 +14,7 @@ data class container(
     val location: Long =0
 )
     : Parcelable {
+    // Parcelable constructor
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readLong(),
@@ -21,6 +23,7 @@ data class container(
         parcel.readLong()
     )
 
+    // Write the object's data to the parcel
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
         parcel.writeLong(id)
@@ -29,15 +32,18 @@ data class container(
         parcel.writeLong(cargo_weight)
     }
 
+    // Describe the contents of the object, always return 0
     override fun describeContents(): Int {
         return 0
     }
 
     companion object CREATOR : Parcelable.Creator<container> {
+        // Create a container object from the parcel
         override fun createFromParcel(parcel: Parcel): container {
             return container(parcel)
         }
 
+        // Create an array of containers with the specified size
         override fun newArray(size: Int): Array<container?> {
             return arrayOfNulls(size)
         }
