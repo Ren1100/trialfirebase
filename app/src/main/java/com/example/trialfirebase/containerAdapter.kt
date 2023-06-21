@@ -18,25 +18,30 @@ class containerAdapter(
     private val selectedContainers = mutableSetOf<container>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): containerViewHolder {
+        // Inflate the item layout for the RecyclerView
         val view = LayoutInflater.from(context).inflate(R.layout.containerlist, parent, false)
         return containerViewHolder(view)
     }
 
     override fun getItemCount(): Int {
+        // Return the number of items in the list
         return containers.size
     }
 
     override fun onBindViewHolder(holder: containerViewHolder, position: Int) {
+        // Bind data to the views in the ViewHolder
         val container = containers[position]
         holder.bind(container)
     }
 
     fun getSelectedContainers(): List<container> {
+        // Return a list of selected containers
         return selectedContainers.toList()
     }
 
 
     inner class containerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // View references for the item layout
         private val txvTitle: AutoCompleteTextView = itemView.findViewById(R.id.txvTitle)
         private val txvID: TextView = itemView.findViewById(R.id.txvID)
         private val txvDestinations: TextView = itemView.findViewById(R.id.txvDestinations)
@@ -44,6 +49,7 @@ class containerAdapter(
         private val txvCargoWeight: TextView = itemView.findViewById(R.id.txvCargoWeight)
 
         fun bind(container: container) {
+            // Bind container data to the views
             txvTitle.setText(container.title)
             txvID.setText(container.id.toString())
             txvDestinations.setText(container.destinations.toString())
@@ -67,6 +73,7 @@ class containerAdapter(
             txvTitle.setText(container.title, false)
 
             itemView.setOnClickListener {
+                // Toggle container selection on item click
                 if (selectedContainers.contains(container)) {
                     selectedContainers.remove(container)
                     itemView.setBackgroundResource(android.R.color.transparent)
@@ -78,6 +85,7 @@ class containerAdapter(
         }
 
         private fun container.getFirestoreData(): List<String> {
+            // Generate a list of Firestore data for the container
             val firestoreData = mutableListOf<String>()
 
             val idLabel = "ID: $id"
