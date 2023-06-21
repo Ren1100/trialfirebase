@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), containerAdapter.OnDeleteClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = FirebaseFirestore.getInstance()
+        db = FirebaseFirestore.getInstance() //initialize the firebase firestore
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
